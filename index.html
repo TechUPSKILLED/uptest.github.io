@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+<head>
+	<title>Untitled</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta http-equiv="imagetoolbar" content="no" />
+	<meta name="generator" content="ActivePresenter 7.3.0"/>
+	<meta name="author" content="Admin" />
+	<meta name="copyright" content=" " />
+	<meta name="description" content=""/>
+
+	<link rel="stylesheet" type="text/css" href="index.css" />
+
+	<script type="text/javascript">
+		var language = {"Tutorial":"Tutorial","Description":"Description","Author":"Author","DemoIntro":"Play presentation automatically","Copyright":"Copyright","TestIntro":"Choose this mode to do a test","Homepage":"Home page","Practice":"Practice","Test":"Test","Demo":"Demonstration","TutorialIntro":"Tutorial mode","PracticeIntro":"Choose this mode to practise more","OpenPrezError":"Could not open presentation.\nError: "};
+		var params = {IniTocState:0,TocWidth:250,TocStyle:1};
+
+		var PlayModes = {
+			DEMO: 1,
+			TUT: 2,
+			PRAC: 4,
+			TEST: 8,
+			ALL: 15,
+		};
+
+		var opmodes = 15;
+		var viewPort = {width: 1280,height: 620};
+
+		function openPrez(url, mode) {
+			try {
+				var padding = 10,
+					toolbarHeight = 32,
+					isTocVisible = (params.IniTocState == 1 || (params[mode] && params[mode].IniTocState == 1)) &&
+						(params.TocStyle == 1 || (params[mode] && params[mode].TocStyle == 1)),
+					tocWidth = isTocVisible ? (params.TocWidth == undefined ? params[mode].TocWidth : params.TocWidth) : 0,
+					width = viewPort.width + padding * 2 + tocWidth,
+					height = viewPort.height + padding + toolbarHeight,
+					titleAddrH = 60,	// Estimated height of browser title + address bar
+					border = 8,
+					autofit = false;
+				if (screen.availWidth < width + 2 * border) {
+					autofit = true;
+					width = screen.availWidth - 2 * border;
+				}
+				if (screen.availHeight < height + 2 * border + titleAddrH) {
+					autofit = true;
+					height = screen.availHeight - 2 * border - titleAddrH;
+				}
+				if (autofit)
+					url += '?autofit=true';
+				else
+					url += '?autofit=false';
+
+				var left = (screen.availWidth - width - 2 * border) / 2,
+					top = (screen.availHeight - height - 2 * border - titleAddrH) / 2;
+				if (left < 0)
+					left = 0;
+				if (top < 0)
+					top = 0;
+
+				var styles = 'top=' + top + ',left=' + left + ',width=' + width + ',height=' + height
+					+ ',location=no,toolbar=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes';
+				var owin = window.open(encodeURI(url), '_blank', styles);
+				if (owin)
+					owin.focus();
+			}
+			catch (e) {
+				alert(language.OpenPrezError + e);
+			}
+			return false;
+		};
+	</script>
+</head>
+
+<body>
+	<div id="ap-top-container" class="ap-top-container">
+		<div class="ap-sub-container">
+			<div class="ap-layout-top">
+				<script>
+					var apInfoHTML = '<h1>Untitled</h1> \
+									<table> \
+										<tr> \
+											<td>' + language.Description + '</td> \
+											<td class="ap-left-indent" ></td> \
+										</tr> \
+										<tr> \
+											<td>' +language.Author + '</td> \
+											<td class="ap-left-indent">Admin</td> \
+										</tr> \
+										<tr> \
+											<td>' + language.Copyright + '</td> \
+											<td class="ap-left-indent"></td> \
+										</tr> \
+										<tr> \
+											<td>' + language.Homepage + '</td> \
+											<td class="ap-left-indent"><a href="" target="_blank"></a></td> \
+										</tr>\
+									</table> \
+									<div class="ap-static-line"> \
+									</div>';
+
+					var container = document.getElementById('ap-top-container');
+					var layoutTop = container.getElementsByClassName('ap-layout-top')[0];
+					var apInfo = document.createElement('div');
+					apInfo.classList.add('ap-info');
+					apInfo.innerHTML = apInfoHTML;
+					layoutTop.appendChild(apInfo);
+				</script>
+			</div>
+		</div>
+		<div class="ap-layout-bottom">
+			<script>
+				var container = document.getElementById('ap-top-container');
+				var layoutBottom = container.getElementsByClassName('ap-layout-bottom')[0];
+
+				if ((opmodes & PlayModes.DEMO) == PlayModes.DEMO)
+				{
+					var btnMask = document.createElement('div');
+					btnMask.classList.add('ap-operation-btn-mask');
+					layoutBottom.appendChild(btnMask);
+
+					var btnMode = document.createElement('div');
+					btnMode.setAttribute('class', 'ap-operation-btn ap-operation-demo-btn');
+					btnMode.setAttribute('title', language.DemoIntro);
+					btnMode.setAttribute('onClick', 'openPrez("demo.html", "Demo")');
+					btnMode.innerHTML += '<div class="ap-btn-text">' + language.Demo + '</div>';
+					btnMask.appendChild(btnMode);
+				};
+				if ((opmodes & PlayModes.TUT) == PlayModes.TUT)
+				{
+					var btnMask = document.createElement('div');
+					btnMask.classList.add('ap-operation-btn-mask');
+					layoutBottom.appendChild(btnMask);
+
+					var btnMode = document.createElement('div');
+					btnMode.setAttribute('class', 'ap-operation-btn ap-operation-tutorial-btn');
+					btnMode.setAttribute('title', language.TutorialIntro);
+					btnMode.setAttribute('onClick', 'openPrez("tutorial.html", "Tutorial")');
+					btnMode.innerHTML += '<div class="ap-btn-text">' + language.Tutorial + '</div>';
+					btnMask.appendChild(btnMode);
+				};
+				if ((opmodes & PlayModes.PRAC) == PlayModes.PRAC)
+				{
+					var btnMask = document.createElement('div');
+					btnMask.classList.add('ap-operation-btn-mask');
+					layoutBottom.appendChild(btnMask);
+
+					var btnMode = document.createElement('div');
+					btnMode.setAttribute('class', 'ap-operation-btn ap-operation-practice-btn');
+					btnMode.setAttribute('title', language.PracticeIntro);
+					btnMode.setAttribute('onClick', 'openPrez("practice.html", "Practice")');
+					btnMode.innerHTML += '<div class="ap-btn-text">' + language.Practice + '</div>';
+					btnMask.appendChild(btnMode);
+				};
+				if ((opmodes & PlayModes.TEST) == PlayModes.TEST)
+				{
+					var btnMask = document.createElement('div');
+					btnMask.classList.add('ap-operation-btn-mask');
+					layoutBottom.appendChild(btnMask);
+
+					var btnMode = document.createElement('div');
+					btnMode.setAttribute('class', 'ap-operation-btn ap-operation-test-btn');
+					btnMode.setAttribute('title', language.TestIntro);
+					btnMode.setAttribute('onClick', 'openPrez("test.html", "Test")');
+					btnMode.innerHTML += '<div class="ap-btn-text">' + language.Test + '</div>';
+					btnMask.appendChild(btnMode);
+				};
+			</script>
+		</div>
+	</div>
+</body>
+</html>
